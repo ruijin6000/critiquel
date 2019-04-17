@@ -1,0 +1,15 @@
+#navlogo{
+  height: auto;
+  width: auto;
+  max-height: 50px;
+  max-width: 50px;
+}
+
+label, h2 {
+  color: white;
+  font-weight: bold;
+}
+
+h6 {
+  color: black;
+}
