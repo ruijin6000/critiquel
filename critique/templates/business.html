@@ -4,7 +4,13 @@
 
 {% block jumbotitle %}Business{% endblock %}
 
-{% block subtext %}Test Query for Business Data{% endblock %}
+{% block subtext %}
+  {% if data %}
+    Here are your search results
+  {% else %}
+    You can search the database here based on any combination of these four fields.
+  {% endif %}
+{% endblock %}
 
 {% block content %}
   {% if data %}
