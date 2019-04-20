@@ -19,6 +19,7 @@ def credits():
 
 @app.route('/business', methods=['POST', 'GET'])
 def business():
+<<<<<<< HEAD
     # Query field will never be empty since input is mandatory
     # If user inputted data in the form, we would have a post request.
     if request.method == 'POST':
@@ -51,3 +52,22 @@ def business():
         return render_template('business.html', data=result)
     # Else we have a get request, so don't pass data (will be None by default)
     return render_template('business.html')
+=======
+    print()
+    result = mongo.db.business.find({'state':'CA'}, {'name':1,'address':1,'categories':1})
+    # result = mongo.db.business.find({'city':'Phoenix'}, {'name':1,'address':1,'categories':1})
+    return render_template('business.html', data=result)
+
+
+@app.route('/businessByCity')
+def businessByCity():
+	print()
+	result = mongo.db.business.find({'city':'Phoenix'}, {'name':1,'address':1,'categories':1})
+	return render_template('businessByCity.html', data=result)
+
+@app.route('/businessByName')
+def businessByName():
+	print()
+	result = mongo.db.business.find({'name':'Arizona Biltmore Golf Club'}, {'name':1,'address':1,'city':1, 'state':1})
+	return render_template('businessByCity.html', data=result)
+>>>>>>> af3734e771e0e405fe08badadd84e28ed1750acb
