@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Business{% endblock %}
+
+{% block jumbotitle %}Business{% endblock %}
+
+{% block subtext %}Test Query for Business Data{% endblock %}
+
+{% block content %}
+<table class="table table-dark table-bordered table-sm table-striped text-center">
+  <thead>
+    <th scope="col">Name</th>
+    <th scope="col">Address</th>
+    <th scope="col">Category</th>
+  </thead>
+  <tbody>
+    {% for row in data %}
+      <tr scope="row">
+        <td>{{ row.name }}</td>
+        <td>{{ row.address }}</td>
+        <td>{{ row.categories }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

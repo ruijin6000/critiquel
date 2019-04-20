@@ -16,9 +16,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Programs</a>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Queries</a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="{{ url_for('business') }}">Business</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">Something else here</a>
@@ -36,8 +36,10 @@
         <hr class="my-4">
         <p class="lead">{% block subtext %}{% endblock %}</p>
       </div>
-      {% block content %}
-      {% endblock %}
+
+      <div class="jumbotron">
+          <p class="lead">{% block content %}{% endblock %}</p>
+      </div>
     </div>
 
     {% block scriptimport %}{% endblock %}
