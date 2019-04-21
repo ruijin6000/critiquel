@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Update Data
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Updating data</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  There are many ways in which update to the data can be made, but for demonstration, we will be making an update to our previously added SJSU's rating from 4 to 5.
+{% endblock %}
+
+{% block content %}
+
+{% if success == 1 %}
+  <div class="jumbotron">
+    <h3><span style="color:#353a44">Successfully updated your entry.</span></h3>
+  </div>
+{% elif success == -1 %}
+  <div class="jumbotron">
+    <h3><span style="color:#353a44">Error while updating. Please check your input and try again.</span></h3>
+  </div>
+{% else %}
+  <form action="{{ url_for('update') }}" method="post" id="form1">
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+      <div class="col-sm-6">
+        <input class="form-control form-control-lg" name="name" placeholder="Name of the Place" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label col-form-label-lg" for="address">Address</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-lg" name="address" placeholder="Location of the place" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label col-form-label-lg" for="city">City</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-lg" name="city" placeholder="Brooklyn, San Mateo, Austin ..." required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label col-form-label-lg" for="state">State</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-lg" name="state" placeholder="CA, California ..." required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label col-form-label-lg" for="rating">New Rating</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-lg" name="rating" placeholder="0 stars?" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}

@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}Business{% endblock %}
+{% block title %}Query Homepage{% endblock %}
 
-{% block jumbotitle %}Business{% endblock %}
+{% block jumbotitle %}Query{% endblock %}
 
 {% block subtext %}
   {% if data %}
@@ -14,32 +14,38 @@
 
 {% block content %}
   {% if data %}
-    <table class="table table-light table-bordered table-sm table-striped text-center">
-      <thead>
-        <th scope="col">Name</th>
-        <th scope="col">City</th>
-        <th scope="col">Category</th>
-        <th scope="col">Address</th>
-        <th scope="col">Ratings</th>
-      </thead>
-      <tbody>
-        {% for row in data %}
-          {% if row.address|length and row.categories|length %}
-            <tr>
-              <td>{{ row.name }}</td>
-              <td>{{ row.city }}</td>
-              <td>{{ row.categories }}</td>
-              <td>{{ row.address }}</td>
-              <td>{{ row.stars }}</td>
-            </tr>
-          {% endif %}
-        {% endfor %}
-      </tbody>
-    </table>
+    {% if data.count() == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No records found!</span></h3>
+      </div>
+    {% else %}
+      <table class="table table-light table-bordered table-sm table-striped text-center">
+        <thead>
+          <th scope="col">Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Category</th>
+          <th scope="col">Address</th>
+          <th scope="col">Ratings</th>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            {% if row.address|length and row.categories|length %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.city }}</td>
+                <td>{{ row.categories }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.stars }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
 
   {% else %}
 
-    <form action="{{ url_for('business') }}" method="post" id="form1">
+    <form action="{{ url_for('query') }}" method="post" id="form1">
 
           <div class="form-group row">
             <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>

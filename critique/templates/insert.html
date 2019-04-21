@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Insert Data
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Inserting data</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can add new data to the business collection by filling out the following form.
+{% endblock %}
+
+{% block content %}
+
+{% if success %}
+  <div class="jumbotron">
+    <h3><span style="color:#353a44">Thank you for your review!</span></h3>
+  </div>
+{% else %}
+  <form action="{{ url_for('insert') }}" method="post" id="form1">
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+          <div class="col-sm-8">
+            <input class="form-control form-control-lg" name="name" placeholder="Name of the Place" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="address">Address</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-lg" name="address" placeholder="Location of the place" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="city">City</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-lg" name="city" placeholder="Brooklyn, San Mateo, Austin ..." required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="state">State</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-lg" name="state" placeholder="CA, California ..." required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="category">Category</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-lg" name="category" placeholder="Restaurant, Gym, Salon etc..." required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="services">Services</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-lg" name="services" placeholder="handicap parking, takeout, home delivery, whatever you can think of." required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label col-form-label-lg" for="ratings">Rating</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-lg" name="ratings" placeholder="5 stars?" required>
+          </div>
+        </div>
+      </form>
+
+      <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}
