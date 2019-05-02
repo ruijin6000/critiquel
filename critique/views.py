@@ -8,7 +8,7 @@ states_list = {'Alabama': 'AL', 'Alaska': 'AK', 'American Samoa': 'AS', 'Arizona
 mongo = PyMongo(app, uri="mongodb://ec2-54-241-147-8.us-west-1.compute.amazonaws.com:27022/yelpData")
 
 @app.route('/query', methods=['POST', 'GET'])
-def query():
+def business():
 
     if request.method == 'POST':
         parameters = {}
@@ -28,14 +28,49 @@ def query():
         ratings = request.form['ratings']
         if len(ratings) > 0:
             ratings = int(ratings)
-            parameters['stars'] = {'$gte': ratings}
+            parameters['stars'] = ratings
 
         projection = {'name': 1, 'city': 1, 'address': 1, 'categories': 1, 'stars': 1}
 
         result = mongo.db.business.find(parameters, projection).limit(20)
-        return render_template('query.html', data=result)
+        return render_template('business.html', data=result)
 
-    return render_template('query.html')
+    return render_template('business.html')
+
+@app.route('/tips', methods=['POST', 'GET'])
+def tips():
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name'])
+        bus_id = mongo.db.business.find_one({'name':name},{"business_id":1})['business_id']
+        tips = mongo.db.tips.find({"business_id": bus_id}, {"text":1, "date":1})
+        return render_template('tips.html', data = tips)
+    return render_template('tips.html')
+
+def business_check_in():
+    pass
+
+def business_hours():
+    pass
+
+def business_price_range():
+    pass
+
+def kids_friendly():
+    pass
+
+def business_more_than_x_reviews_y_stars():
+    pass
+
+def best_nights():
+    pass
+
+def business_open_or_close():
+    pass
+
+
+
+def rate():
+    pass
 
 @app.route('/insert', methods=['POST', 'GET'])
 def insert():

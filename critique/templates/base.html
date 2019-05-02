@@ -12,30 +12,41 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <a class="navbar-brand" href="{{ url_for('index') }}"><img id="navlogo" src="{{ url_for('static', filename='images/review.png') }}" alt=""></a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CRUD</a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url_for('insert') }}">Insert</a>
 
-                <div class="dropdown-divider"></div>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CRUD</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ url_for('insert') }}">Insert</a>
 
-                <a class="dropdown-item" href="{{ url_for('update') }}">Update</a>
+              <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ url_for('update') }}">Update</a>
 
-                <a class="dropdown-item" href="{{ url_for('delete') }}">Delete</a>
+              <div class="dropdown-divider"></div>
 
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('query') }}">Queries</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('credits') }}">Credits</a>
-            </li>
-        </div>
+              <a class="dropdown-item" href="{{ url_for('delete') }}">Delete</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Queries</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ url_for('business') }}">Business Search</a>
+
+              <div class="dropdown-divider"></div>
+
+              <a class="dropdown-item" href="{{ url_for('tips') }}">Tips</a>
+
+              <div class="dropdown-divider"></div>
+
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('credits') }}">Credits</a>
+          </li>
+        </ul>
     </nav>
 
     <div class="container">

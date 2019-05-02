@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Tips
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Tips</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can query for the tips left by customers for a business by that business's name.
+{% endblock %}
+
+{% block content %}
+  {% if data %}
+    {% if data.count() == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No records found!</span></h3>
+      </div>
+    {% else %}
+      <table class="table table-light table-bordered table-sm table-striped text-center">
+        <thead>
+          <th scope="col">Date</th>
+          <th scope="col">Pro-tip</th>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            <tr>
+              {% set list1 = row.date.split(' ')[0].split("-") %}
+              <td>{{ list1[1]}}/{{list1[2]}}/{{list1[0]}}</td>
+              <td>{{ row.text }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+  {% else %}
+
+    <form action="{{ url_for('tips') }}" method="post" id="form1">
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="name" placeholder="Name of the store" required>
+            </div>
+          </div>
+
+        <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}
