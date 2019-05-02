@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Restaurants by Price
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Restaurants by Price Range</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can find restaurants in a particular city based on their price ranges. Price ranges are on a scale of 1-4, 1 being the cheapest and 4 being the most expensive.
+{% endblock %}
+
+{% block content %}
+  {% if data %}
+    {% set count = data.count() %}
+    {% if count == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No record found for the place. Please check your input.</span></h3>
+      </div>
+    {% else %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">{{ count }} restaurants found!</span></h3>
+      </div>
+      <table class="table table-light table-bordered table-sm table-striped text-center">
+        <thead>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">Rating</th>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            <tr>
+              <td>{{ row['name'] }}</td>
+              <td>{{ row['address'] }}, {{row['city']}}, {{row['state']}}</td>
+              <td>{{ row['stars'] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+  {% else %}
+
+    <form action="{{ url_for('restaurants_price_range') }}" method="post" id="form1">
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="name">City</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="city" placeholder="Location" required>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="range">Price Range</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="range" placeholder="1-4 scale." required>
+            </div>
+          </div>
+
+        <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}

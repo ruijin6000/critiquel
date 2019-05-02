@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Tips
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Check-Ins</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can query for the different check-ins made by users for a particular location.
+{% endblock %}
+
+{% block content %}
+  {% if data %}
+    {% if data|length == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No records found!</span></h3>
+      </div>
+    {% else %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">{{ data['dates']|length }} check-in(s) made at {{ data['name'] }}.</span></h3>
+      </div>
+      <table class="table table-light table-bordered table-sm table-striped text-center">
+        <thead>
+          <th scope="col">Date</th>
+          <th scope="col">Check-in time</th>
+        </thead>
+        <tbody>
+          {% for row in data['dates'] %}
+            <tr>
+              {% set contents = row.split(' ') %}
+              {% set date = contents[0].split('-') %}
+              <td>{{ date[1]}}/{{date[2]}}/{{date[0]}}</td>
+              <td>{{ contents[1] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+  {% else %}
+
+    <form action="{{ url_for('business_check_in') }}" method="post" id="form1">
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="name" placeholder="Name of the store" required>
+            </div>
+          </div>
+
+        <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}

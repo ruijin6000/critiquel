@@ -46,31 +46,67 @@ def tips():
         return render_template('tips.html', data = tips)
     return render_template('tips.html')
 
+@app.route('/check-in', methods=['POST', 'GET'])
 def business_check_in():
-    pass
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name'])
+        bus_id = mongo.db.business.find_one({'name':name},{"business_id":1})['business_id']
+        dates = mongo.db.checkin.find_one({"business_id": bus_id}, {"date":1})['date']
+        return render_template('checkins.html', data = {"dates": dates, "name": name})
+    return render_template('checkins.html')
 
+@app.route('/rate', methods=['POST', 'GET'])
+def rate():
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name'])
+        user_rating = float(request.form['rating'])
+        business = mongo.db.business.find_one({'name':name})
+        reviews = business['review_count']
+        old_rating = business['stars']
+        new_rating = round((reviews*old_rating + user_rating)/(reviews+1), 2)
+        result = mongo.db.business.update_one({"_id": ObjectId(business["_id"])}, {'$set': {'stars': new_rating, 'review_count': reviews+1}})
+        increased = (new_rating - old_rating) > 0
+        output = "" if result.modified_count == 0 else f"Your review has been recorded. Rating was {'increased' if increased else 'decreased'} from {old_rating} to {new_rating} for {name}."
+
+        return render_template('rate.html', data = output)
+    return render_template('rate.html')
+
+@app.route('/business-hours', methods=['POST', 'GET'])
 def business_hours():
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name'])
+        city = capitalize_each_word(request.form['city'])
+        datum = mongo.db.business.find_one({'name':name, 'city': city})
+        address = f"{datum['address']}, {datum['city']}, {datum['state']}."
+        return render_template('business_hours.html', data = {'name': name, 'address': address, 'hours': datum['hours']})
+    return render_template('business_hours.html')
+
+@app.route('/restaurants-price-range', methods=['POST', 'GET'])
+def restaurants_price_range():
+    if request.method == 'POST':
+        city = capitalize_each_word(request.form['city'])
+        pr = request.form['range']
+        data = mongo.db.business.find({'city': city, 'attributes': {'RestaurantsPriceRange2': pr}, 'categories': {'$regex': 'Restaurants'}})
+
+        return render_template('restaurants_price_range.html', data = data)
+    return render_template('restaurants_price_range.html')
+
+@app.route('/children-friendly', methods=['POST', 'GET'])
+def children_friendly():
     pass
 
-def business_price_range():
-    pass
-
-def kids_friendly():
-    pass
-
+@app.route('/review-star', methods=['POST', 'GET'])
 def business_more_than_x_reviews_y_stars():
     pass
 
+@app.route('/best-nights', methods=['POST', 'GET'])
 def best_nights():
     pass
 
+@app.route('/open-close', methods=['POST', 'GET'])
 def business_open_or_close():
     pass
 
-
-
-def rate():
-    pass
 
 @app.route('/insert', methods=['POST', 'GET'])
 def insert():
