@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Kids Friendly
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Kids Friendly</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can search for businesses that are children friendly in a city.
+{% endblock %}
+
+{% block content %}
+  {% if data %}
+    {% if data[0].count() == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No record found for the place. Please check your input.</span></h3>
+      </div>
+    {% else %}
+      {% if data[1] == True %}
+        <div class="jumbotron">
+          <h3><span style="color:#353a44">{{ data['name'] }} is children friendly.</span></h3>
+        </div>
+      {% else %}
+        <div class="jumbotron">
+          <h3><span style="color:#353a44">Here are the children friendly businesses in your city:</span></h3>
+        </div>
+        <table class="table table-light table-bordered table-sm table-striped text-center">
+          <thead>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+          </thead>
+          <tbody>
+            {% for row in data[0] %}
+              <tr>
+                <td>{{ row['name'] }}</td>
+                <td>{{ row['address'] }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    {% endif %}
+
+  {% else %}
+
+    <form action="{{ url_for('kids_friendly') }}" method="post" id="form1">
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="name" placeholder="Name of the store">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="city">City</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="city" placeholder="Location" required>
+            </div>
+          </div>
+
+        <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}

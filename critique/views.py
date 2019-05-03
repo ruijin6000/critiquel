@@ -7,7 +7,7 @@ states_list = {'Alabama': 'AL', 'Alaska': 'AK', 'American Samoa': 'AS', 'Arizona
 
 mongo = PyMongo(app, uri="mongodb://ec2-54-241-147-8.us-west-1.compute.amazonaws.com:27022/yelpData")
 
-@app.route('/query', methods=['POST', 'GET'])
+@app.route('/business_search', methods=['POST', 'GET'])
 def business():
 
     if request.method == 'POST':
@@ -91,17 +91,46 @@ def restaurants_price_range():
         return render_template('restaurants_price_range.html', data = data)
     return render_template('restaurants_price_range.html')
 
-@app.route('/children-friendly', methods=['POST', 'GET'])
-def children_friendly():
-    pass
+@app.route('/kids-friendly', methods=['POST', 'GET'])
+def kids_friendly():
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name']).strip()
+        city = capitalize_each_word(request.form['city'])
+        parameters = {'city': city, "attributes": {"GoodForKids": "True"}}
+        if len(name) != 0:
+            parameters['name'] = name
+        data = mongo.db.business.find(parameters, {'name': 1, 'address':1})
+        return render_template('kids_friendly.html', data=[data, len(name) > 0])
+    return render_template('kids_friendly.html')
 
 @app.route('/review-star', methods=['POST', 'GET'])
 def business_more_than_x_reviews_y_stars():
-    pass
+    if request.method == 'POST':
+        reviews = float(request.form['review'])
+        ratings = float(request.form['rating'])
+        city = capitalize_each_word(request.form['city'])
+        parameters = {'review_count': {'$gte': reviews}, 'stars': {'$gte': ratings}}
+        if len(city) != 0:
+            parameters['city'] = city
+        data = mongo.db.business.find(parameters, {'name': 1, 'address':1}).limit(20)
+        return render_template('review_rating.html', data=data)
+    return render_template('review_rating.html')
 
 @app.route('/best-nights', methods=['POST', 'GET'])
 def best_nights():
-    pass
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name'])
+        city = capitalize_each_word(request.form['city'])
+        parameters = {'name': name, 'city': city}
+        data = mongo.db.business.find_one(parameters, {'attributes':1})['attributes']['BestNights'].replace('{','').replace('}','').split(',')
+        days = []
+        for i in data:
+            j = i.split(":")
+            if j[1].strip() == "True":
+                days.append(j[0].strip().replace("'",'').capitalize())
+
+        return render_template('best_nights.html', data={'days': ', '.join(days), 'name': name, 'city':city})
+    return render_template('best_nights.html')
 
 @app.route('/open-close', methods=['POST', 'GET'])
 def business_open_or_close():

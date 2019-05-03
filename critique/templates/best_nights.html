@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Best Nights
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Best Nights to visit a business</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can search for the best days to visit a business. Since a business may have different braches in different cities, you also need to specify the city in which to look for the business.
+{% endblock %}
+
+{% block content %}
+  {% if data %}
+    {% if data|length == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No record found for the place. Please check your input.</span></h3>
+      </div>
+    {% else %}
+      <div class="jumbotron">
+        <h3>The best days to visit {{data['name']}} in {{data['city']}} is on {{data['days']}}.</h3>
+      </div>
+    {% endif %}
+
+  {% else %}
+
+    <form action="{{ url_for('best_nights') }}" method="post" id="form1">
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="name" placeholder="Name of the store">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="city">City</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="city" placeholder="Location" required>
+            </div>
+          </div>
+
+        <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}
