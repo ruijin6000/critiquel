@@ -134,8 +134,25 @@ def best_nights():
 
 @app.route('/open-close', methods=['POST', 'GET'])
 def business_open_or_close():
-    pass
+    if request.method == 'POST':
+        name = capitalize_each_word(request.form['name'])
+        parameters = {}
+        if len(name) != 0:
+            parameters['name'] = name
+        city = capitalize_each_word(request.form['city'])
+        if len(city) != 0:
+            parameters['city'] = city
+        projection = {'name': 1, 'city': 1, 'is_open':1}
+        result = mongo.db.business.find(parameters, projection).limit(5)
+        return render_template('business_open.html', data=result)
+    return render_template('business_open.html')
 
+@app.route('/no-checkin', methods=['GET'])
+def business_no_checkin():
+    data = mongo.db.checkin.find({'date': {'$size': 0}}, {'business_id':1})
+    ids = [i['business_id'] for i in data]
+    result = mongo.db.business.find({'business_id': {'$in': ids}})
+    return render_template('business_no_checkin.html', data=result)
 
 @app.route('/insert', methods=['POST', 'GET'])
 def insert():

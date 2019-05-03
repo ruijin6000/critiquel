@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  Status
+{% endblock %}
+
+{% block jumbotitle %}
+  <h1 class="display-4"><span style="color:#353a44">Business Status</span></h1>
+{% endblock %}
+
+{% block subtext %}
+  Here, you can check if a business has been closed down or still open.
+{% endblock %}
+
+{% block content %}
+  {% if data %}
+    {% if data.count() == 0 %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">No record found for the place. Please check your input.</span></h3>
+      </div>
+    {% else %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">Following businesses found...</span></h3>
+      </div>
+      <table class="table table-light table-bordered table-sm table-striped text-center">
+        <thead>
+          <th scope="col">Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Status</th>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            <tr>
+              <td>{{ row['name'] }}</td>
+              <td>{{ row['city'] }}</td>
+              {% if row[is_open] == 1 %}
+                <td>Open</td>
+              {% else %}
+                <td>Closed</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+  {% else %}
+
+    <form action="{{ url_for('business_open_or_close') }}" method="post" id="form1">
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="name">Name</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="name" placeholder="Name of the business" required>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label col-form-label-lg" for="city">City</label>
+            <div class="col-sm-6">
+              <input class="form-control form-control-lg" name="city" placeholder="City in which the business is located">
+            </div>
+          </div>
+
+        <button type="submit" class="btn btn-primary" value="submit" form="form1">Submit</button>
+  {% endif %}
+{% endblock %}
