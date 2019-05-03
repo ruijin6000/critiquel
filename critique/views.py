@@ -86,7 +86,7 @@ def restaurants_price_range():
     if request.method == 'POST':
         city = capitalize_each_word(request.form['city'])
         pr = request.form['range']
-        data = mongo.db.business.find({'city': city, 'attributes': {'RestaurantsPriceRange2': pr}, 'categories': {'$regex': 'Restaurants'}})
+        data = mongo.db.business.find({'city': city, 'attributes.RestaurantsPriceRange2': pr, 'categories': {'$regex': 'Restaurants'}}).limit(20)
 
         return render_template('restaurants_price_range.html', data = data)
     return render_template('restaurants_price_range.html')
