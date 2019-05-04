@@ -18,10 +18,10 @@ h6 {
 	color: #A9A9A9;
 }
 
-.form-control:focus::placeholder { /* Most modern browsers support this now. */
+.form-control:focus::placeholder {
    color: transparent;
 }
 
-.form-control::input { 
-	color: black; 
+#form1 input{
+    color: black;
 }
