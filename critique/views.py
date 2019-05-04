@@ -96,11 +96,15 @@ def kids_friendly():
     if request.method == 'POST':
         name = capitalize_each_word(request.form['name']).strip()
         city = capitalize_each_word(request.form['city'])
-        parameters = {'city': city, "attributes": {"GoodForKids": "True"}}
+        parameters = {'city': city, "attributes.GoodForKids": "True"}
         if len(name) != 0:
             parameters['name'] = name
-        data = mongo.db.business.find(parameters, {'name': 1, 'address':1})
-        return render_template('kids_friendly.html', data=[data, len(name) > 0])
+            data = mongo.db.business.find_one(parameters, {'name': 1, 'address':1})
+            cursor = False
+        else:
+            data = mongo.db.business.find(parameters, {'name': 1, 'address':1})
+            cursor = True
+        return render_template('kids_friendly.html', data=[data, cursor])
     return render_template('kids_friendly.html')
 
 @app.route('/review-star', methods=['POST', 'GET'])

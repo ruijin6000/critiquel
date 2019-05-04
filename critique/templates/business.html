@@ -19,6 +19,9 @@
         <h3><span style="color:#353a44">No records found!</span></h3>
       </div>
     {% else %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">{{ data.count() }} records found!</span></h3>
+      </div>
       <table class="table table-light table-bordered table-sm table-striped text-center">
         <thead>
           <th scope="col">Name</th>

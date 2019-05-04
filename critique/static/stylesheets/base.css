@@ -13,3 +13,7 @@ label, h2 {
 h6 {
   color: black;
 }
+
+.form-control:focus::placeholder { /* Most modern browsers support this now. */
+   color: transparent;
+}

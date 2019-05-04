@@ -14,34 +14,32 @@
 
 {% block content %}
   {% if data %}
-    {% if data[0].count() == 0 %}
+    {% if (data[1] and data[0].count() == 0) %}
+    <div class="jumbotron">
+      <h3><span style="color:#353a44">No record found for the place. Please check your input.</span></h3>
+    </div>
+    {% elif not data[1] %}
       <div class="jumbotron">
-        <h3><span style="color:#353a44">No record found for the place. Please check your input.</span></h3>
+        <h3><span style="color:#353a44">{{ data[0]['name'] }} is children friendly.</span></h3>
       </div>
     {% else %}
-      {% if data[1] == True %}
-        <div class="jumbotron">
-          <h3><span style="color:#353a44">{{ data['name'] }} is children friendly.</span></h3>
-        </div>
-      {% else %}
-        <div class="jumbotron">
-          <h3><span style="color:#353a44">Here are the children friendly businesses in your city:</span></h3>
-        </div>
-        <table class="table table-light table-bordered table-sm table-striped text-center">
-          <thead>
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
-          </thead>
-          <tbody>
-            {% for row in data[0] %}
-              <tr>
-                <td>{{ row['name'] }}</td>
-                <td>{{ row['address'] }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      {% endif %}
+      <div class="jumbotron">
+        <h3><span style="color:#353a44">Here are the children friendly businesses in your city:</span></h3>
+      </div>
+      <table class="table table-light table-bordered table-sm table-striped text-center">
+        <thead>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+        </thead>
+        <tbody>
+          {% for row in data[0] %}
+            <tr>
+              <td>{{ row['name'] }}</td>
+              <td>{{ row['address'] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     {% endif %}
 
   {% else %}
